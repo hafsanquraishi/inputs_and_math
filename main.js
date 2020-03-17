@@ -1,5 +1,6 @@
 $("body").on("keyup keydown keypress change", ".item input", function (e) {
-	let total = 0;
+	let pre_tariff_total_sum = 0;
+	let post_tariff_total_sum = 0;
 
 	$("tr.item").each(function () {
 		const $this_row = $(this);
@@ -9,7 +10,6 @@ $("body").on("keyup keydown keypress change", ".item input", function (e) {
 		let cost = cost_field.val();
 		const tariff_pct = $this_row.data("tariff-percent");
 		let pct = parseFloat(tariff_pct);
-
 		pct = pct / 100;
 
 		// make them into numbers
@@ -21,7 +21,25 @@ $("body").on("keyup keydown keypress change", ".item input", function (e) {
 
 		const post_tariff_total = (pre_tariff_total + (pre_tariff_total * pct));
 
+		pre_tariff_total_sum = pre_tariff_total_sum + pre_tariff_total;
+		post_tariff_total_sum = post_tariff_total_sum + post_tariff_total;
+
+		console.log("Pre tariff total");
 		console.log(pre_tariff_total);
+
+		$this_row.find("td.pre_total span").text(pre_tariff_total);
+
+		console.log("Post tariff total");
 		console.log(post_tariff_total);
-	});
-})
+
+		$this_row.find("td.post_total span").text(post_tariff_total);
+	}); //this ends the each loop
+
+	console.log("Pre tariff total sum");
+	console.log(pre_tariff_total_sum);
+	$("#pre_total span").text(pre_tariff_total_sum);
+
+	console.log("Post tariff total sum");
+	console.log(post_tariff_total_sum);
+	$("#post_total span").text(post_tariff_total_sum);
+}); //this ends the key press listener
